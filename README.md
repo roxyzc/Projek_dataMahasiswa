@@ -1,2 +1,0 @@
-# Repository-Baru
-# Data-mahasiswa

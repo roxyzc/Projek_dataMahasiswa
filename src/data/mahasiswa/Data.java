@@ -188,6 +188,7 @@ public class Data extends javax.swing.JFrame {
         btnTambah.setText("TAMBAH");
         btnTambah.setToolTipText("");
         btnTambah.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnTambah.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnTambah.setMaximumSize(new java.awt.Dimension(40, 24));
         btnTambah.setMinimumSize(new java.awt.Dimension(40, 24));
         btnTambah.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -253,7 +254,7 @@ public class Data extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 570, 170));
 
-        btnCari.setBackground(new java.awt.Color(102, 102, 102));
+        btnCari.setBackground(new java.awt.Color(204, 204, 204));
         btnCari.setFont(new java.awt.Font("Rockwell", 0, 14)); // NOI18N
         btnCari.setText("CARI");
         btnCari.setToolTipText("");

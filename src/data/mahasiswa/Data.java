@@ -4,17 +4,28 @@
  */
 package data.mahasiswa;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.sql.PreparedStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author user
  */
 public class Data extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form Data
      */
     public Data() {
         initComponents();
+        viewData();
     }
 
     /**
@@ -38,7 +49,6 @@ public class Data extends javax.swing.JFrame {
         txtNama = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtNomorhp = new javax.swing.JTextField();
         rdLaki = new javax.swing.JRadioButton();
         rdPerempuan = new javax.swing.JRadioButton();
         jLabel6 = new javax.swing.JLabel();
@@ -50,9 +60,14 @@ public class Data extends javax.swing.JFrame {
         btnUpdate = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblinput = new javax.swing.JTable();
-        btnTambah1 = new javax.swing.JButton();
-        cbxAktif1 = new javax.swing.JCheckBox();
+        btnCari = new javax.swing.JButton();
+        cbxTidakAktif = new javax.swing.JCheckBox();
         jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        txtNohp = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
+        tblLihatData = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
@@ -66,7 +81,7 @@ public class Data extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(610, 580));
+        setMinimumSize(new java.awt.Dimension(610, 580));
         getContentPane().setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
@@ -100,52 +115,51 @@ public class Data extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("NIM");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(92, 79, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, -1, -1));
 
-        txtNim.setFont(new java.awt.Font("Serif", 0, 12)); // NOI18N
-        jPanel1.add(txtNim, new org.netbeans.lib.awtextra.AbsoluteConstraints(205, 78, 250, -1));
+        txtNim.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        jPanel1.add(txtNim, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, 250, -1));
 
         jLabel3.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Nama");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(92, 114, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, -1, -1));
 
-        txtNama.setFont(new java.awt.Font("Serif", 0, 12)); // NOI18N
-        jPanel1.add(txtNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(205, 113, 250, -1));
+        txtNama.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        jPanel1.add(txtNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 250, -1));
 
         jLabel4.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Jenis kelamin");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(92, 218, -1, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 240, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Nomor hp");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(92, 149, -1, -1));
+        jLabel5.setText("Email");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 180, -1, -1));
 
-        txtNomorhp.setFont(new java.awt.Font("Serif", 0, 12)); // NOI18N
-        jPanel1.add(txtNomorhp, new org.netbeans.lib.awtextra.AbsoluteConstraints(205, 148, 250, -1));
-
+        rdLaki.setBackground(new java.awt.Color(0, 0, 0));
         btngJenKel.add(rdLaki);
         rdLaki.setFont(new java.awt.Font("Serif", 0, 12)); // NOI18N
         rdLaki.setForeground(new java.awt.Color(255, 255, 255));
         rdLaki.setText("Laki-laki");
-        jPanel1.add(rdLaki, new org.netbeans.lib.awtextra.AbsoluteConstraints(203, 218, -1, -1));
+        jPanel1.add(rdLaki, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, -1, -1));
 
+        rdPerempuan.setBackground(new java.awt.Color(0, 0, 0));
         btngJenKel.add(rdPerempuan);
         rdPerempuan.setFont(new java.awt.Font("Serif", 0, 12)); // NOI18N
         rdPerempuan.setForeground(new java.awt.Color(255, 255, 255));
         rdPerempuan.setText("Perempuan");
-        jPanel1.add(rdPerempuan, new org.netbeans.lib.awtextra.AbsoluteConstraints(286, 218, -1, -1));
+        jPanel1.add(rdPerempuan, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 240, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Agama");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(92, 184, -1, -1));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 210, -1, -1));
 
         cbxAgama.setFont(new java.awt.Font("Serif", 0, 12)); // NOI18N
         cbxAgama.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih", "Islam", "Kristen", "Katolik", "Hindu", "Budha", "Atheis" }));
@@ -154,89 +168,491 @@ public class Data extends javax.swing.JFrame {
                 cbxAgamaActionPerformed(evt);
             }
         });
-        jPanel1.add(cbxAgama, new org.netbeans.lib.awtextra.AbsoluteConstraints(205, 183, 82, -1));
+        jPanel1.add(cbxAgama, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, 82, -1));
 
         jLabel7.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Status Mahasiswa");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(92, 252, -1, -1));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, -1, -1));
 
-        btngJenKel.add(cbxAktif);
+        cbxAktif.setBackground(new java.awt.Color(0, 0, 0));
+        buttonGroup1.add(cbxAktif);
         cbxAktif.setFont(new java.awt.Font("Serif", 0, 12)); // NOI18N
         cbxAktif.setForeground(new java.awt.Color(255, 255, 255));
         cbxAktif.setText("Aktif");
-        jPanel1.add(cbxAktif, new org.netbeans.lib.awtextra.AbsoluteConstraints(203, 252, -1, -1));
+        jPanel1.add(cbxAktif, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 270, -1, -1));
 
         btnTambah.setBackground(new java.awt.Color(255, 153, 0));
         btnTambah.setFont(new java.awt.Font("Rockwell", 0, 14)); // NOI18N
         btnTambah.setText("TAMBAH");
         btnTambah.setToolTipText("");
         btnTambah.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(159, 479, 126, -1));
+        btnTambah.setMaximumSize(new java.awt.Dimension(40, 24));
+        btnTambah.setMinimumSize(new java.awt.Dimension(40, 24));
+        btnTambah.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTambahMouseClicked(evt);
+            }
+        });
+        jPanel1.add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 500, 120, -1));
 
         btnHapus.setBackground(new java.awt.Color(255, 0, 0));
         btnHapus.setFont(new java.awt.Font("Rockwell", 0, 14)); // NOI18N
         btnHapus.setText("HAPUS");
         btnHapus.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(453, 479, 132, -1));
+        btnHapus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHapusMouseClicked(evt);
+            }
+        });
+        jPanel1.add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 500, 120, -1));
 
         btnUpdate.setBackground(new java.awt.Color(0, 255, 0));
         btnUpdate.setFont(new java.awt.Font("Rockwell", 0, 14)); // NOI18N
         btnUpdate.setText("UPDATE");
         btnUpdate.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(303, 479, 132, -1));
+        btnUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnUpdateMouseClicked(evt);
+            }
+        });
+        jPanel1.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 500, 120, -1));
 
+        tblinput.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         tblinput.setFont(new java.awt.Font("Serif", 0, 12)); // NOI18N
         tblinput.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nim", "Nama", "Jenis kelamin", "No hp", "Agama", "Status"
+                "Nim", "Nama", "Email", "No hp", "Jenis kelamin", "Agama", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
+        tblinput.setGridColor(new java.awt.Color(204, 204, 204));
+        tblinput.setSelectionBackground(new java.awt.Color(102, 102, 102));
+        tblinput.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        tblinput.setShowGrid(true);
+        tblinput.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblinputMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblinput);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 291, 570, 170));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 570, 170));
 
-        btnTambah1.setBackground(new java.awt.Color(0, 255, 255));
-        btnTambah1.setFont(new java.awt.Font("Rockwell", 0, 14)); // NOI18N
-        btnTambah1.setText("CARI");
-        btnTambah1.setToolTipText("");
-        btnTambah1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(btnTambah1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 479, 127, -1));
+        btnCari.setBackground(new java.awt.Color(102, 102, 102));
+        btnCari.setFont(new java.awt.Font("Rockwell", 0, 14)); // NOI18N
+        btnCari.setText("CARI");
+        btnCari.setToolTipText("");
+        btnCari.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnCari.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCariMouseClicked(evt);
+            }
+        });
+        jPanel1.add(btnCari, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 90, 120, -1));
 
-        btngJenKel.add(cbxAktif1);
-        cbxAktif1.setFont(new java.awt.Font("Serif", 0, 12)); // NOI18N
-        cbxAktif1.setForeground(new java.awt.Color(255, 255, 255));
-        cbxAktif1.setText("Tidak Aktif");
-        jPanel1.add(cbxAktif1, new org.netbeans.lib.awtextra.AbsoluteConstraints(286, 252, -1, -1));
+        cbxTidakAktif.setBackground(new java.awt.Color(0, 0, 0));
+        buttonGroup1.add(cbxTidakAktif);
+        cbxTidakAktif.setFont(new java.awt.Font("Serif", 0, 12)); // NOI18N
+        cbxTidakAktif.setForeground(new java.awt.Color(255, 255, 255));
+        cbxTidakAktif.setText("Tidak Aktif");
+        cbxTidakAktif.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxTidakAktifActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cbxTidakAktif, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 270, -1, -1));
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/data/mahasiswa/kucing arya.jpg"))); // NOI18N
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 34, -1, 300));
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 150, -1, 260));
+
+        jLabel9.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("Nomor hp");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(92, 149, -1, -1));
+
+        txtNohp.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        jPanel1.add(txtNohp, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 150, 250, -1));
+
+        txtEmail.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 180, 250, -1));
+
+        tblLihatData.setBackground(new java.awt.Color(0, 255, 204));
+        tblLihatData.setFont(new java.awt.Font("Rockwell", 0, 14)); // NOI18N
+        tblLihatData.setText("LIHAT DATA");
+        tblLihatData.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        tblLihatData.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblLihatDataMouseClicked(evt);
+            }
+        });
+        jPanel1.add(tblLihatData, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 500, 120, -1));
+
+        jButton1.setBackground(new java.awt.Color(255, 204, 204));
+        jButton1.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        jButton1.setText("RESET");
+        jButton1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 120, 120, -1));
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 610, 570);
+        jPanel1.setBounds(0, 0, 610, 590);
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    public void clear(){
+        txtNama.setText("");
+        txtNim.setText("");
+        txtNohp.setText("");
+        txtEmail.setText("");
+        cbxAgama.setSelectedItem("Pilih");
+        btngJenKel.clearSelection();
+        buttonGroup1.clearSelection();
+    }
+    
+    private boolean isValidEmailAddress(String email) {
+           String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+           java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+           java.util.regex.Matcher m = p.matcher(email);
+           return m.matches();
+    }
+    
+    private final String regex2 = "^[a-zA-Z+\\s.]*$";
+    private final String regex = "\\d+";
+    private DefaultTableModel tableModel;
+    private ResultSet resultSet;
+    private void viewData(){
+        try{
+            //koneksi ke database
+            Connection con = connectionToDB.ConnectDB();
+            
+            //Model tabel
+            Object[] columnTitle = {"Nim", "Nama", "Email", "No hp", "Jenis kelamin", "Agama", "Status"};
+            tableModel = new DefaultTableModel(null, columnTitle);
+            tblinput.setModel(tableModel);
+            tableModel.getDataVector().removeAllElements();
+            
+            //Buat statement
+            Statement st = con.createStatement();
+            resultSet = st.executeQuery("SELECT * FROM data");
+            while(resultSet.next()){
+                Object[] data = {
+                    resultSet.getString("Nim"),
+                    resultSet.getString("Nama"),
+                    resultSet.getString("Email"),
+                    resultSet.getString("NoHp"),
+                    resultSet.getString("JenisKelamin"),
+                    resultSet.getString("Agama"),
+                    resultSet.getString("Status")
+                };
+                tableModel.addRow(data);
+            }
+            con.close();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+    
     private void cbxAgamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxAgamaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxAgamaActionPerformed
+
+    private void btnTambahMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseClicked
+        try {
+            // TODO add your handling code here:
+            final String nama = txtNama.getText();
+            final String nim = txtNim.getText();
+            final String email = txtEmail.getText();
+            final String noHp = txtNohp.getText();
+            final String agama = cbxAgama.getSelectedItem().toString();
+                      
+            if((nama.isBlank() || nama.isEmpty()) || (nim.isBlank() || nim.isEmpty()) || (email.isBlank() || email.isEmpty()) || (noHp.isBlank() || noHp.isEmpty()) || agama.equals("Pilih") || (rdLaki.isSelected() == false && rdPerempuan.isSelected() == false) || (cbxAktif.isSelected() == false && cbxTidakAktif.isSelected() == false)){
+                JOptionPane.showMessageDialog(null, "Semua data wajib diisi", "Invalid", JOptionPane.ERROR_MESSAGE);
+            }else if(nim.length() < 9 || nim.length() > 9){
+                txtNim.setText("");
+                JOptionPane.showMessageDialog(null, "nim harus 9 angka", "invalid", JOptionPane.ERROR_MESSAGE);
+            }else if(nim.matches(regex) != true){
+                txtNim.setText("");
+                JOptionPane.showMessageDialog(null, "nim harus angka", "invalid", JOptionPane.ERROR_MESSAGE);
+            }else if(nama.length() < 3){
+                txtNama.setText("");
+                JOptionPane.showMessageDialog(null, "nama harus lebih dari 3 huruf", "invalid", JOptionPane.ERROR_MESSAGE);
+            }else if(nama.matches(regex2) != true){
+                txtNama.setText("");
+                JOptionPane.showMessageDialog(null, "Nama harus huruf", "invalid", JOptionPane.ERROR_MESSAGE);
+            }else if(isValidEmailAddress(email) == false){
+                txtEmail.setText("");
+                JOptionPane.showMessageDialog(null, "email tidak valid", "invalid", JOptionPane.ERROR_MESSAGE);
+            }else if(noHp.length() < 11 || noHp.length() > 13 || (noHp.indexOf("0") != 0 && noHp.indexOf("8") != 1)){
+                txtNohp.setText("");
+                JOptionPane.showMessageDialog(null, "no hp tidak valid ", "invalid", JOptionPane.ERROR_MESSAGE);
+            }
+            else if(noHp.matches(regex) != true){
+                txtNohp.setText("");
+                JOptionPane.showMessageDialog(null, "no hp harus angka", "invalid", JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+                try (Connection con = connectionToDB.ConnectDB()) {
+                  
+                    
+                    Statement st = con.createStatement();
+                    resultSet = st.executeQuery("SELECT * FROM data WHERE Nim='"+nim+"'");
+                    Boolean findUser = false;
+                    while(resultSet.next()){
+                        findUser = true;
+                    }
+                    
+                    if(findUser){
+                        JOptionPane.showMessageDialog(null, "Data sudah ada", "Invalid", JOptionPane.ERROR_MESSAGE);
+                        con.close();
+                        return;
+                    }
+                    
+                    final String jenisKelamin = rdLaki.isSelected() ? rdLaki.getText() : rdPerempuan.getText();
+                    final String status = cbxAktif.isSelected() ? cbxAktif.getText() : cbxTidakAktif.getText();
+                    String sql = "INSERT INTO `data`(`Nim`, `Nama`, `Email`, `NoHp`, `Agama`, `JenisKelamin`, `Status`) VALUES ("
+                            + "'"+nim+"'"
+                            + ",'"+nama+"'"
+                            + ",'"+email+"'"
+                            + ",'"+noHp+"'"
+                            + ",'"+agama+"'"
+                            + ",'"+jenisKelamin+"'"
+                            + ",'"+status+"')";
+                    PreparedStatement preparedStmt = con.prepareStatement(sql);
+                    preparedStmt.execute();
+                    clear();
+                    viewData();
+                    con.close();
+                    JOptionPane.showMessageDialog(null, "Berhasil memasukkan data", "Success", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnTambahMouseClicked
+
+    private void cbxTidakAktifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTidakAktifActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxTidakAktifActionPerformed
+
+    private void tblinputMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblinputMouseClicked
+        //ambil data dari table
+        String getData = (String) tblinput.getValueAt(tblinput.getSelectedRow() , 0);
+        
+        try{
+            //koneksi ke database
+            Connection con = connectionToDB.ConnectDB();
+            
+            //Buat statement
+            Statement st = con.createStatement();
+            resultSet = st.executeQuery("SELECT * FROM data WHERE Nim='"+getData+"'");
+            while(resultSet.next()){
+                txtNama.setText(resultSet.getString("Nama"));
+                txtNim.setText(resultSet.getString("Nim"));
+                txtNohp.setText(resultSet.getString("NoHp"));
+                txtEmail.setText(resultSet.getString("Email"));
+                cbxAgama.setSelectedItem(resultSet.getString("Agama"));
+                if(resultSet.getString("JenisKelamin").equals("Laki-laki")){
+                    rdLaki.setSelected(true);
+                }else{
+                    rdPerempuan.setSelected(true);
+                }
+                
+                if(resultSet.getString("Status").equals("Aktif")){
+                    cbxAktif.setSelected(true);
+                }else{
+                    cbxTidakAktif.setSelected(true); 
+                }
+            }
+        }catch(SQLException e){
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_tblinputMouseClicked
+
+    private void btnHapusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseClicked
+        // TODO add your handling code here:
+        try{
+            Connection con = connectionToDB.ConnectDB();
+            Statement st = con.createStatement();
+            resultSet = st.executeQuery("SELECT * FROM data WHERE Nim='"+txtNim.getText()+"'");
+            Boolean findUser = false;
+            while(resultSet.next()){
+                findUser = true;
+            }
+            
+            if(findUser == false){
+                JOptionPane.showMessageDialog(null, "Data tidak ada", "Invalid", JOptionPane.ERROR_MESSAGE);
+                con.close();
+                return;
+            }
+            
+            if(JOptionPane.showConfirmDialog(null, "Yakin?", "Warning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+                String delete = "DELETE FROM data WHERE Nim='"+txtNim.getText()+"'";
+                PreparedStatement prs = con.prepareStatement(delete);
+                prs.execute();
+            }
+            
+            viewData();
+            clear();
+        }catch(SQLException e){
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_btnHapusMouseClicked
+
+    private void btnCariMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCariMouseClicked
+        // TODO add your handling code here:
+        try{
+            final String nama = txtNama.getText();
+            final String nim = txtNim.getText();
+            final String email = txtEmail.getText();
+            final String noHp = txtNohp.getText();
+            final String agama = cbxAgama.getSelectedItem().toString();
+            final String jenisKelamin = rdLaki.isSelected()? "Laki-laki" : rdPerempuan.isSelected()? "Perempuan" : null;
+            final String statusMhs = cbxAktif.isSelected()? "Aktif" : cbxTidakAktif.isSelected()? "Tidak Aktif" : null;
+            
+            //koneksi ke database
+            Connection con = connectionToDB.ConnectDB();
+            
+            //Model tabel
+            Object[] columnTitle = {"Nim", "Nama", "Email", "No hp", "Jenis kelamin", "Agama", "Status"};
+            tableModel = new DefaultTableModel(null, columnTitle);
+            tblinput.setModel(tableModel);
+            tableModel.getDataVector().removeAllElements();
+            
+            //Buat statement
+            Statement st = con.createStatement();
+            
+            if(nama.isEmpty() || nama.isBlank()){
+                resultSet = st.executeQuery("SELECT * FROM data WHERE (Nim='"+nim+"') OR (Email='"+email+"') OR (NoHp='"+noHp+"') OR (Agama='"+agama+"') OR (JenisKelamin='"+jenisKelamin+"') OR (Status='"+statusMhs+"')");
+                while(resultSet.next()){
+                Object[] data = {
+                    resultSet.getString("Nim"),
+                    resultSet.getString("Nama"),
+                    resultSet.getString("Email"),
+                    resultSet.getString("NoHp"),
+                    resultSet.getString("JenisKelamin"),
+                    resultSet.getString("Agama"),
+                    resultSet.getString("Status")
+                };
+                tableModel.addRow(data);
+                }
+            }else{
+                resultSet = st.executeQuery("SELECT * FROM data WHERE Nama LIKE '%"+nama+"%' OR Nim='"+nim+"' OR Email='"+email+"' OR NoHp='"+noHp+"' OR Agama='"+agama+"' OR JenisKelamin='"+jenisKelamin+"' OR Status='"+statusMhs+"'");
+                while(resultSet.next()){
+                Object[] data = {
+                    resultSet.getString("Nim"),
+                    resultSet.getString("Nama"),
+                    resultSet.getString("Email"),
+                    resultSet.getString("NoHp"),
+                    resultSet.getString("JenisKelamin"),
+                    resultSet.getString("Agama"),
+                    resultSet.getString("Status")
+                };
+                tableModel.addRow(data);
+                }
+            }
+            clear();
+            con.close();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_btnCariMouseClicked
+
+    private void tblLihatDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLihatDataMouseClicked
+        // TODO add your handling code here:
+        viewData();
+    }//GEN-LAST:event_tblLihatDataMouseClicked
+
+    private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
+        // TODO add your handling code here:
+        try{
+            final String nama = txtNama.getText();
+            final String nim = txtNim.getText();
+            final String email = txtEmail.getText();
+            final String noHp = txtNohp.getText();
+            final String agama = cbxAgama.getSelectedItem().toString();
+            final String jenisKelamin = rdLaki.isSelected()? "Laki-laki" : rdPerempuan.isSelected()? "Perempuan" : null;
+            final String statusMhs = cbxAktif.isSelected()? "Aktif" : cbxTidakAktif.isSelected()? "Tidak Aktif" : null;
+            //koneksi ke database
+            Connection con = connectionToDB.ConnectDB();
+            
+            Statement st = con.createStatement();
+            resultSet = st.executeQuery("SELECT * FROM data WHERE Nim='"+txtNim.getText()+"'");
+            Boolean findUser = false;
+            while(resultSet.next()){
+                findUser = true;
+            }
+            
+            if(findUser == false){
+                JOptionPane.showMessageDialog(null, "Data tidak ada", "Invalid", JOptionPane.ERROR_MESSAGE);
+                con.close();
+                clear();
+                return;
+            }
+           
+            if((nama.isBlank() || nama.isEmpty()) || (nim.isBlank() || nim.isEmpty()) || (email.isBlank() || email.isEmpty()) || (noHp.isBlank() || noHp.isEmpty()) || agama.equals("Pilih") || (jenisKelamin.isEmpty() || jenisKelamin.isBlank()) || (statusMhs.isEmpty() && statusMhs.isBlank())){
+                JOptionPane.showMessageDialog(null, "Semua data wajib diisi", "Invalid", JOptionPane.ERROR_MESSAGE);
+            }else if(nim.length() < 9 || nim.length() > 9){
+                txtNim.setText("");
+                JOptionPane.showMessageDialog(null, "nim harus 9 angka", "invalid", JOptionPane.ERROR_MESSAGE);
+            }else if(nim.matches(regex) != true){
+                txtNim.setText("");
+                JOptionPane.showMessageDialog(null, "nim harus angka", "invalid", JOptionPane.ERROR_MESSAGE);
+            }else if(nama.length() < 3){
+                txtNama.setText("");
+                JOptionPane.showMessageDialog(null, "nama harus lebih dari 3 huruf", "invalid", JOptionPane.ERROR_MESSAGE);
+            }else if(nama.matches(regex2) != true){
+                txtNama.setText("");
+                JOptionPane.showMessageDialog(null, "Nama harus huruf", "invalid", JOptionPane.ERROR_MESSAGE);
+            }else if(isValidEmailAddress(email) == false){
+                txtEmail.setText("");
+                JOptionPane.showMessageDialog(null, "email tidak valid", "invalid", JOptionPane.ERROR_MESSAGE);
+            }else if(noHp.length() < 11 || noHp.length() > 13 || (noHp.indexOf("0") != 0 && noHp.indexOf("8") != 1)){
+                txtNohp.setText("");
+                JOptionPane.showMessageDialog(null, "no hp tidak valid ", "invalid", JOptionPane.ERROR_MESSAGE);
+            }
+            else if(noHp.matches(regex) != true){
+                txtNohp.setText("");
+                JOptionPane.showMessageDialog(null, "no hp harus angka", "invalid", JOptionPane.ERROR_MESSAGE);
+            }else{
+                String sql = "UPDATE data SET Nim='"+txtNim.getText()+"', Nama='"+txtNama.getText()+"', Email='"+txtEmail.getText()+"',NoHp='"+txtNohp.getText()+"', Agama='"+cbxAgama.getSelectedItem().toString()+"', JenisKelamin='"+jenisKelamin+"', Status='"+statusMhs+"' WHERE Nim='"+ txtNim.getText() +"'";
+                PreparedStatement preparedStmt = con.prepareStatement(sql);
+                preparedStmt.execute();
+                JOptionPane.showMessageDialog(null, "Berhasil", "Success", JOptionPane.INFORMATION_MESSAGE);
+                con.close();
+            }
+            viewData();
+            clear();
+        }catch(SQLException e){
+             Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_btnUpdateMouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        clear();
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -274,15 +690,16 @@ public class Data extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCari;
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnTambah;
-    private javax.swing.JButton btnTambah1;
     private javax.swing.JButton btnUpdate;
     private javax.swing.ButtonGroup btngJenKel;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbxAgama;
     private javax.swing.JCheckBox cbxAktif;
-    private javax.swing.JCheckBox cbxAktif1;
+    private javax.swing.JCheckBox cbxTidakAktif;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -291,15 +708,18 @@ public class Data extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JRadioButton rdLaki;
     private javax.swing.JRadioButton rdPerempuan;
+    private javax.swing.JButton tblLihatData;
     private javax.swing.JTable tblinput;
+    private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtNama;
     private javax.swing.JTextField txtNim;
-    private javax.swing.JTextField txtNomorhp;
+    private javax.swing.JTextField txtNohp;
     // End of variables declaration//GEN-END:variables
 }

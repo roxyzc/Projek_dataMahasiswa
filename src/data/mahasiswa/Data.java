@@ -304,7 +304,7 @@ public class Data extends javax.swing.JFrame {
         });
         jPanel1.add(tblLihatData, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 500, 120, -1));
 
-        jButton1.setBackground(new java.awt.Color(255, 204, 204));
+        jButton1.setBackground(new java.awt.Color(255, 153, 153));
         jButton1.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
         jButton1.setText("RESET");
         jButton1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));

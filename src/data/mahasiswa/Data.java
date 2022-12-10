@@ -461,39 +461,62 @@ public class Data extends javax.swing.JFrame {
            return m.matches();
     }
     
+    private void createTable(ResultSet resultSet){
+        
+            try {
+                while(resultSet.next()){
+                Object[] data = {
+                    resultSet.getString("Nim"),
+                    resultSet.getString("Nama"),
+                    resultSet.getString("Email"),
+                    resultSet.getString("NoHp"),
+                    resultSet.getString("JenisKelamin"),
+                    resultSet.getString("Agama"),
+                    resultSet.getString("Status")
+                };
+                tableModel.addRow(data);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    
+//    private void cariKe1(Connection con, String nim, String nama, String noHp, String email, String agama, String jenisKelamin, String status){
+//        Statement st;
+//        try {
+//                st = con.createStatement();
+//                if(nama.length() > 1 && noHp.length() > 1 && email.length() > 1 && agama.equals("Pilih") != true && jenisKelamin.length() > 1 && status.length() > 1){
+//                    resultSet = st.executeQuery("SELECT * FROM data WHERE Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"'");
+//                    createTable(resultSet);
+//                }
+//                else if((nama.isEmpty() && noHp.length() > 1 && email.length() > 1 && agama.equals("Pilih") != true && jenisKelamin != null && status != null) || (nama.length() > 1 && (email.isEmpty() || email.isBlank()) && noHp.length() > 1 && agama.equals("Pilih") != true && jenisKelamin != null && status != null) || (nama.length() > 1 && email.length() > 1 && (noHp.isEmpty() || noHp.isBlank()) && agama.equals("Pilih") != true && jenisKelamin != null && status != null) || (nama.length() > 1 && email.length() > 1 && noHp.length() > 1 && agama.equals("Pilih") == true && jenisKelamin != null && status != null) || (nama.length() > 1 && email.length() > 1 && noHp.length() > 1 && agama.equals("Pilih") != true && jenisKelamin == null && status != null) || (nama.length() > 1 && email.length() > 1 && noHp.length() > 1 && agama.equals("Pilih") != true && jenisKelamin != null && status == null)){
+//                    System.out.println("Masuk sini kan?");
+//                    resultSet = st.executeQuery("SELECT * FROM data WHERE (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND Status='"+status+"')");
+//                    createTable(resultSet);
+//                }else if(((nama.isEmpty()) && (noHp.isEmpty() || noHp.isBlank()) && email.length() > 1 && agama.equals("Pilih") != true && jenisKelamin != null && status != null) || (nama.length() > 1 && (noHp.isEmpty() || noHp.isBlank()) && (email.isBlank() || email.isBlank()) && (agama.equals("Pilih") != true) && jenisKelamin != null && status != null) || (nama.length() > 1 && noHp.length() > 1 && (email.isBlank() || email.isBlank()) && (agama.equals("Pilih") == true) && jenisKelamin != null && status != null) || (nama.length() > 1 && noHp.length() > 1 && email.length() > 1 && (agama.equals("Pilih") == true) && jenisKelamin == null && status != null) || (nama.length() > 1 && noHp.length() > 1 && email.length() > 1 && (agama.equals("Pilih") != true) && jenisKelamin == null && status == null) ){
+//                    System.out.println("Masuk sini?");
+//                    resultSet = st.executeQuery("SELECT * FROM data WHERE (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND JenisKelamin='"+jenisKelamin+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"')  OR (Nama='"+nama+"' AND Email='"+email+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (Nama='"+nama+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (Nama='"+nama+"' AND noHp='"+noHp+"' AND Agama='"+agama+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND NoHp='"+noHp+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"')"
+//                            + "OR (Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND Status='"+status+"') OR (Email='"+email+"' AND NoHp='"+noHp+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Email='"+email+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"')");
+//                    createTable(resultSet);
+//                }
+//            con.close();
+//            clear();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+//    
     private void cariKe2(Connection con, String nim, String nama, String noHp, String email, String agama, String jenisKelamin, String status){
         Statement st;
         try {
             st = con.createStatement();
             
-            if(nama.isEmpty() || nama.isBlank()){
+            if(nama.isEmpty()){
                 resultSet = st.executeQuery("SELECT * FROM data WHERE Nim='"+nim+"' OR Email='"+email+"' OR NoHp='"+noHp+"' OR Agama='"+agama+"' OR JenisKelamin='"+jenisKelamin+"' OR Status='"+status+"'");
-                while(resultSet.next()){
-                Object[] data = {
-                    resultSet.getString("Nim"),
-                    resultSet.getString("Nama"),
-                    resultSet.getString("Email"),
-                    resultSet.getString("NoHp"),
-                    resultSet.getString("JenisKelamin"),
-                    resultSet.getString("Agama"),
-                    resultSet.getString("Status")
-                };
-                    tableModel.addRow(data);
-                }
+                createTable(resultSet);
             }else{
                 resultSet = st.executeQuery("SELECT * FROM data WHERE Nama Like '%"+nama+"%'");
-                while(resultSet.next()){
-                Object[] data = {
-                    resultSet.getString("Nim"),
-                    resultSet.getString("Nama"),
-                    resultSet.getString("Email"),
-                    resultSet.getString("NoHp"),
-                    resultSet.getString("JenisKelamin"),
-                    resultSet.getString("Agama"),
-                    resultSet.getString("Status")
-                };
-                    tableModel.addRow(data);
-                }
+                createTable(resultSet);
             }
             
             con.close();
@@ -507,16 +530,18 @@ public class Data extends javax.swing.JFrame {
         try{
             //koneksi ke database
             Connection con = connectionToDB.ConnectDB();
-            
+           
             //Model tabel
             Object[] columnTitle = {"Nim", "Nama", "Email", "No hp", "Jenis kelamin", "Agama", "Status"};
             tableModel = new DefaultTableModel(null, columnTitle);
             tblinput.setModel(tableModel);
             tableModel.getDataVector().removeAllElements();
-            
             //Buat statement
             Statement st = con.createStatement();
-            if(nim != null && (nama.isEmpty() || nama.isBlank()) && (email.isEmpty() || email.isBlank()) && (noHp.isEmpty() || noHp.isBlank()) && agama.equals("Pilih") && jenisKelamin == null && status == null){
+            if(nim.length() > 1 && nama.length() > 1 && email.length() > 1 && noHp.length() > 1 && agama.equals("Pilih") != true && jenisKelamin != null && status != null){
+                resultSet = st.executeQuery("SELECT * FROM data WHERE Nim='"+nim+"' AND Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"'");
+                createTable(resultSet);        
+            }else if(nim != null && (nama.isEmpty() || nama.isBlank()) && (email.isEmpty() || email.isBlank()) && (noHp.isEmpty() || noHp.isBlank()) && agama.equals("Pilih") && jenisKelamin == null && status == null){
                 cariKe2(con, nim, nama, noHp, email, agama, jenisKelamin, status);
             }else if(nama != null && (nim.isEmpty() || nim.isBlank()) && (email.isEmpty() || email.isBlank()) && (noHp.isEmpty() || noHp.isBlank()) && agama.equals("Pilih") && jenisKelamin == null && status == null){
                 cariKe2(con, nim, nama, noHp, email, agama, jenisKelamin, status);
@@ -531,40 +556,21 @@ public class Data extends javax.swing.JFrame {
             }else if( status != null && (nim.isEmpty() || nim.isBlank()) && (nama.isEmpty() || nama.isBlank()) && (email.isEmpty() || email.isBlank()) && (noHp.isEmpty() || noHp.isBlank()) && agama.equals("Pilih") && jenisKelamin == null){
                 cariKe2(con, nim, nama, noHp, email, agama, jenisKelamin, status);
             }else{
-                if(nim != null){
-                    resultSet = st.executeQuery("SELECT * FROM data WHERE Nim='"+nim+"' AND Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"'");
-                    while(resultSet.next()){
-                    Object[] data = {
-                        resultSet.getString("Nim"),
-                        resultSet.getString("Nama"),
-                        resultSet.getString("Email"),
-                        resultSet.getString("NoHp"),
-                        resultSet.getString("JenisKelamin"),
-                        resultSet.getString("Agama"),
-                        resultSet.getString("Status")
-                    };
-                        tableModel.addRow(data);
-                    }
+                if(nim.length() > 1){
+                    resultSet = st.executeQuery("SELECT * FROM data WHERE Nim='"+nim+"'");
+                    createTable(resultSet);
                 }else{
+//                    cariKe1(con, nim,nama, noHp, email, agama, jenisKelamin, status);
+                   System.out.println("Masuk?");
                    resultSet = st.executeQuery("SELECT * FROM data WHERE (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"') OR (Nama='"+nama+"' AND Email='"+email+"') OR (Nama='"+nama+"' AND NoHp='"+noHp+"') OR (Nama='"+nama+"' AND Agama='"+agama+"') OR (Nama='"+nama+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND JenisKelamin='"+jenisKelamin+"')" +
                     " OR (Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"') OR (Email='"+email+"' AND NoHp='"+noHp+"') OR (Email='"+email+"' AND Agama='"+agama+"') OR (Email='"+email+"' AND JenisKelamin='"+jenisKelamin+"') OR (Email='"+email+"' AND Status='"+status+"')" +
                     " OR (NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (NoHp='"+noHp+"' AND Agama='"+agama+"') OR (NoHp='"+noHp+"' AND JenisKelamin='"+jenisKelamin+"') OR (NoHp='"+noHp+"' AND Status='"+status+"')" +
                     " OR (Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"')  OR (Agama='"+agama+"' AND Status='"+status+"')" +
                     " OR (JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"')");
             
-                    while(resultSet.next()){
-                    Object[] data = {
-                        resultSet.getString("Nim"),
-                        resultSet.getString("Nama"),
-                        resultSet.getString("Email"),
-                        resultSet.getString("NoHp"),
-                        resultSet.getString("JenisKelamin"),
-                        resultSet.getString("Agama"),
-                        resultSet.getString("Status")
-                    };
-                    tableModel.addRow(data);
-                    } 
+                    createTable(resultSet);
                 }
+                
             }
             
             clear();
@@ -592,18 +598,7 @@ public class Data extends javax.swing.JFrame {
             //Buat statement
             Statement st = con.createStatement();
             resultSet = st.executeQuery("SELECT * FROM data");
-            while(resultSet.next()){
-                Object[] data = {
-                    resultSet.getString("Nim"),
-                    resultSet.getString("Nama"),
-                    resultSet.getString("Email"),
-                    resultSet.getString("NoHp"),
-                    resultSet.getString("JenisKelamin"),
-                    resultSet.getString("Agama"),
-                    resultSet.getString("Status")
-                };
-                tableModel.addRow(data);
-            }
+            createTable(resultSet);
             con.close();
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -758,7 +753,6 @@ public class Data extends javax.swing.JFrame {
 
     private void btnCariMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCariMouseClicked
         // TODO add your handling code here:
-//        try{
             final String nama = txtNama.getText();
             final String nim = txtNim.getText();
             final String email = txtEmail.getText();
@@ -768,52 +762,6 @@ public class Data extends javax.swing.JFrame {
             final String statusMhs = cbxAktif.isSelected()? "Aktif" : cbxTidakAktif.isSelected()? "Tidak Aktif" : null;
             
             cari(nim, nama, noHp, email, agama, jenisKelamin, statusMhs);
-            //koneksi ke database
-//            Connection con = connectionToDB.ConnectDB();
-//            
-//            //Model tabel
-//            Object[] columnTitle = {"Nim", "Nama", "Email", "No hp", "Jenis kelamin", "Agama", "Status"};
-//            tableModel = new DefaultTableModel(null, columnTitle);
-//            tblinput.setModel(tableModel);
-//            tableModel.getDataVector().removeAllElements();
-//            
-//            //Buat statement
-//            Statement st = con.createStatement();
-//            
-//            if(nama.isEmpty() || nama.isBlank()){
-//                resultSet = st.executeQuery("SELECT * FROM data WHERE (Nim='"+nim+"') OR (Email='"+email+"') OR (NoHp='"+noHp+"') OR (Agama='"+agama+"') OR (JenisKelamin='"+jenisKelamin+"') OR (Status='"+statusMhs+"')");
-//                while(resultSet.next()){
-//                Object[] data = {
-//                    resultSet.getString("Nim"),
-//                    resultSet.getString("Nama"),
-//                    resultSet.getString("Email"),
-//                    resultSet.getString("NoHp"),
-//                    resultSet.getString("JenisKelamin"),
-//                    resultSet.getString("Agama"),
-//                    resultSet.getString("Status")
-//                };
-//                tableModel.addRow(data);
-//                }
-//            }else{
-//                resultSet = st.executeQuery("SELECT * FROM data WHERE Nama LIKE '%"+nama+"%' OR Nim='"+nim+"' OR Email='"+email+"' OR NoHp='"+noHp+"' OR Agama='"+agama+"' OR JenisKelamin='"+jenisKelamin+"' OR Status='"+statusMhs+"'");
-//                while(resultSet.next()){
-//                Object[] data = {
-//                    resultSet.getString("Nim"),
-//                    resultSet.getString("Nama"),
-//                    resultSet.getString("Email"),
-//                    resultSet.getString("NoHp"),
-//                    resultSet.getString("JenisKelamin"),
-//                    resultSet.getString("Agama"),
-//                    resultSet.getString("Status")
-//                };
-//                tableModel.addRow(data);
-//                }
-//            }
-//            clear();
-//            con.close();
-//        }catch(SQLException e){
-//            System.out.println(e.getMessage());
-//        }
     }//GEN-LAST:event_btnCariMouseClicked
 
     private void tblLihatDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLihatDataMouseClicked

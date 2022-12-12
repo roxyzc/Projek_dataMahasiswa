@@ -454,8 +454,19 @@ public class Data extends javax.swing.JFrame {
         buttonGroup1.clearSelection();
     }
     
+    boolean valid = false;
     private boolean isValidEmailAddress(String email) {
            String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+           String[] ambilEmail = email.split("@");
+           for(int i = 0; i < ambilEmail[0].length(); i++){
+               if(String.valueOf(ambilEmail[0].charAt(i)).matches(regex)){
+                   valid = true;
+               }
+               
+           }
+           if((ambilEmail[0].length() > 8) != true || valid != true){
+               return false;
+           }
            java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
            java.util.regex.Matcher m = p.matcher(email);
            return m.matches();
@@ -647,7 +658,7 @@ public class Data extends javax.swing.JFrame {
             }else if(isValidEmailAddress(email) == false){
                 txtEmail.setText("");
                 JOptionPane.showMessageDialog(null, "email tidak valid", "invalid", JOptionPane.ERROR_MESSAGE);
-            }else if(noHp.length() < 11 || noHp.length() > 13 || (noHp.indexOf("0") != 0 && noHp.indexOf("8") != 1)){
+            }else if(noHp.length() < 11 || noHp.length() > 13 || ((String.valueOf(noHp.charAt(0)).equals("0")) && String.valueOf(noHp.charAt(1)).equals("8")) != true){
                 txtNohp.setText("");
                 JOptionPane.showMessageDialog(null, "no hp tidak valid ", "invalid", JOptionPane.ERROR_MESSAGE);
             }
@@ -791,6 +802,8 @@ public class Data extends javax.swing.JFrame {
             final String agama = cbxAgama.getSelectedItem().toString();
             final String jenisKelamin = rdLaki.isSelected()? "Laki-laki" : rdPerempuan.isSelected()? "Perempuan" : null;
             final String statusMhs = cbxAktif.isSelected()? "Aktif" : cbxTidakAktif.isSelected()? "Tidak Aktif" : null;
+            
+            System.out.println();
             //koneksi ke database
             Connection con = connectionToDB.ConnectDB();
             
@@ -825,7 +838,7 @@ public class Data extends javax.swing.JFrame {
             }else if(isValidEmailAddress(email) == false){
                 txtEmail.setText("");
                 JOptionPane.showMessageDialog(null, "email tidak valid", "invalid", JOptionPane.ERROR_MESSAGE);
-            }else if(noHp.length() < 11 || noHp.length() > 13 || (noHp.indexOf("0") != 0 && noHp.indexOf("8") != 1)){
+            }else if(noHp.length() < 11 || noHp.length() > 13 || ((String.valueOf(noHp.charAt(0)).equals("0")) && String.valueOf(noHp.charAt(1)).equals("8")) != true){
                 txtNohp.setText("");
                 JOptionPane.showMessageDialog(null, "no hp tidak valid ", "invalid", JOptionPane.ERROR_MESSAGE);
             }
@@ -837,10 +850,10 @@ public class Data extends javax.swing.JFrame {
                 PreparedStatement preparedStmt = con.prepareStatement(sql);
                 preparedStmt.execute();
                 JOptionPane.showMessageDialog(null, "Berhasil", "Success", JOptionPane.INFORMATION_MESSAGE);
+                clear();
                 con.close();
             }
             viewData();
-            clear();
         }catch(SQLException e){
              Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, e);
         }

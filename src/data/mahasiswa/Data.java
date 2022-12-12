@@ -522,6 +522,7 @@ public class Data extends javax.swing.JFrame {
         try {
             st = con.createStatement();
             
+            System.out.println("kesinikan lu");
             if(nama.isEmpty()){
                 resultSet = st.executeQuery("SELECT * FROM data WHERE Nim='"+nim+"' OR Email='"+email+"' OR NoHp='"+noHp+"' OR Agama='"+agama+"' OR JenisKelamin='"+jenisKelamin+"' OR Status='"+status+"'");
                 createTable(resultSet);
@@ -554,7 +555,7 @@ public class Data extends javax.swing.JFrame {
                 createTable(resultSet);        
             }else if(nim.length() > 1 && (nama.isEmpty() || nama.isBlank()) && (email.isEmpty() || email.isBlank()) && (noHp.isEmpty() || noHp.isBlank()) && agama.equals("Pilih") && jenisKelamin.isEmpty() && status.isEmpty()){
                 cariKe2(con, nim, nama, noHp, email, agama, jenisKelamin, status);
-            }else if(nama.length() > 1 && (nim.isEmpty() || nim.isBlank()) && (email.isEmpty() || email.isBlank()) && (noHp.isEmpty() || noHp.isBlank()) && agama.equals("Pilih") && jenisKelamin.isEmpty() && status.isEmpty()){
+            }else if(nama != null && (nim.isEmpty() || nim.isBlank()) && (email.isEmpty() || email.isBlank()) && (noHp.isEmpty() || noHp.isBlank()) && agama.equals("Pilih") && jenisKelamin.isEmpty() && status.isEmpty()){
                 cariKe2(con, nim, nama, noHp, email, agama, jenisKelamin, status);
             }else if(email.length() > 1 && (nim.isEmpty() || nim.isBlank()) && (nama.isEmpty() || nama.isBlank()) && (noHp.isEmpty() || noHp.isBlank()) && agama.equals("Pilih") && jenisKelamin.isEmpty() && status.isEmpty()){
                 cariKe2(con, nim, nama, noHp, email, agama, jenisKelamin, status);
@@ -848,6 +849,7 @@ public class Data extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         clear();
+        viewData();
     }//GEN-LAST:event_jButton1MouseClicked
 
     /**

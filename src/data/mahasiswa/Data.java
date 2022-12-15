@@ -326,11 +326,78 @@ public class Data extends javax.swing.JFrame {
         buttonGroup1.clearSelection();
     }
     
+    boolean valid = false;
     private boolean isValidEmailAddress(String email) {
            String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+           String[] ambilEmail = email.split("@");
+           for(int i = 0; i < ambilEmail[0].length(); i++){
+               if(String.valueOf(ambilEmail[0].charAt(i)).matches(regex)){
+                   valid = true;
+               }
+               
+           }
+           if((ambilEmail[0].length() > 8) != true || valid != true){
+               return false;
+           }
            java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
            java.util.regex.Matcher m = p.matcher(email);
            return m.matches();
+    }
+    
+    private void createTable(ResultSet resultSet){
+        
+            try {
+                while(resultSet.next()){
+                Object[] data = {
+                    resultSet.getString("Nim"),
+                    resultSet.getString("Nama"),
+                    resultSet.getString("Email"),
+                    resultSet.getString("NoHp"),
+                    resultSet.getString("JenisKelamin"),
+                    resultSet.getString("Agama"),
+                    resultSet.getString("Status")
+                };
+                tableModel.addRow(data);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    
+    private void cariKe1(Connection con, String nim, String nama, String noHp, String email, String agama, String jenisKelamin, String status){
+        Statement st;
+        try {
+                st = con.createStatement();
+                if(nama.length() > 1 && noHp.length() > 1 && email.length() > 1 && agama.equals("Pilih") != true && jenisKelamin.length() > 1 && status.length() > 1){
+                    resultSet = st.executeQuery("SELECT * FROM data WHERE Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"'");
+                    createTable(resultSet);
+                } else if((nama.isEmpty() && noHp.length() > 1 && email.length() > 1 && agama.equals("Pilih") != true && jenisKelamin.length() > 1 && status.length() > 1) || (nama.length() > 1 && (email.isEmpty() || email.isBlank()) && noHp.length() > 1 && agama.equals("Pilih") != true && jenisKelamin.length() > 1 && status.length() > 1) || (nama.length() > 1 && email.length() > 1 && (noHp.isEmpty() || noHp.isBlank()) && agama.equals("Pilih") != true && jenisKelamin.length() > 1 && status.length() > 1) || (nama.length() > 1 && email.length() > 1 && noHp.length() > 1 && agama.equals("Pilih") == true && jenisKelamin.length() > 1 && status.length() > 1) || (nama.length() > 1 && email.length() > 1 && noHp.length() > 1 && (agama.equals("Pilih") != true) && jenisKelamin.isEmpty() && status.length() > 1) || (nama.length() > 1 && email.length() > 1 && noHp.length() > 1 && agama.equals("Pilih") != true && jenisKelamin.length() > 1 && status.isEmpty())){
+                    resultSet = st.executeQuery("SELECT * FROM data WHERE (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND Status='"+status+"')");
+                    createTable(resultSet);
+                } else if(((nama.isEmpty()) && (noHp.isEmpty() || noHp.isBlank()) && email.length() > 1 && agama.equals("Pilih") != true && jenisKelamin.length() > 1 && status.length() > 1) || (nama.length() > 1 && (noHp.isEmpty() || noHp.isBlank()) && (email.isBlank() || email.isBlank()) && (agama.equals("Pilih") != true) && jenisKelamin.length() > 1 && status.length() > 1) || (nama.length() > 1 && noHp.length() > 1 && (email.isBlank() || email.isEmpty()) && agama.equals("Pilih") != true && jenisKelamin.isEmpty() && status.length() > 1) || (nama.isEmpty() && noHp.length() > 1 && email.length() > 1 && agama.equals("Pilih") != true && jenisKelamin.length() > 1 && status.isEmpty()) || (nama.isEmpty() && noHp.length() > 1 && email.length() > 1 && agama.equals("Pilih") != true && jenisKelamin.isEmpty() && status.length() > 1) || (nama.length() > 1 && noHp.length() > 1 && (email.isBlank() || email.isEmpty()) && agama.equals("Pilih") != true && jenisKelamin.length() > 1 && status.isEmpty()) || (nama.length() > 1 && noHp.length() > 1 && (email.isBlank() || email.isBlank()) && (agama.equals("Pilih") == true) && jenisKelamin.length() > 1 && status.length() > 1) || (nama.length() > 1 && noHp.length() > 1 && email.length() > 1 && (agama.equals("Pilih") == true) && jenisKelamin.isEmpty() && status.length() > 1) || (nama.length() > 1 && noHp.length() > 1 && email.length() > 1 && (agama.equals("Pilih") != true) && jenisKelamin.isEmpty() && status.isEmpty()) || (nama.length() > 1 && (noHp.isEmpty() || noHp.isBlank()) && email.length() > 1 && agama.equals("Pilih") != true && jenisKelamin.isEmpty() && status.length() > 1) || (nama.length() > 1 && (noHp.isEmpty() || noHp.isBlank()) && email.length() > 1 && agama.equals("Pilih") != true && jenisKelamin.length() > 1 && status.isEmpty()) || (nama.isEmpty() && noHp.length() > 1 && (email.isBlank() || email.isEmpty()) && agama.equals("Pilih") != true && jenisKelamin.length() > 1 && status.length() > 1) || (nama.isEmpty() && email.length() > 1 && noHp.length() > 1 && agama.equals("Pilih") == true && jenisKelamin.length() > 1 && status.length() > 1)){
+                    resultSet = st.executeQuery("SELECT * FROM data WHERE (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND Agama='"+agama+"' AND jenisKelamin='"+jenisKelamin+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND Agama='"+agama+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND JenisKelamin='"+jenisKelamin+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"')  OR (Nama='"+nama+"' AND Email='"+email+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (Nama='"+nama+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (Nama='"+nama+"' AND noHp='"+noHp+"' AND Agama='"+agama+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND NoHp='"+noHp+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"')"
+                            + "OR (Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND Status='"+status+"') OR (Email='"+email+"' AND NoHp='"+noHp+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Email='"+email+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Nohp='"+noHp+"' AND Email='"+email+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (Nohp='"+noHp+"' AND Email='"+email+"' AND Agama='"+agama+"' AND Status='"+status+"') OR (Nohp='"+noHp+"' AND Agama='"+agama+"' AND Status='"+status+"' AND JenisKelamin='"+jenisKelamin+"') OR (Nohp='"+noHp+"' AND Email='"+email+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"')");
+                    createTable(resultSet);
+                } else if((nama.length() > 1 && noHp.length() > 1 && email.length() > 1 && agama.equals("Pilih") == true && jenisKelamin.isEmpty() && status.isEmpty()) || (nama.length() > 1 && noHp.length() > 1 && (email.isEmpty() || email.isBlank()) && agama.equals("Pilih") != true && jenisKelamin.isEmpty() && status.isEmpty()) || (nama.length() > 1 && noHp.length() > 1 && (email.isEmpty() || email.isBlank()) && agama.equals("Pilih") == true && jenisKelamin.length() > 1 && status.isEmpty()) || (nama.length() > 1 && noHp.length() > 1 && (email.isEmpty() || email.isBlank()) && agama.equals("Pilih") == true && jenisKelamin.isEmpty() && status.length() > 1) || (nama.length() > 1 && (noHp.isBlank() || noHp.isEmpty())&& (email.isEmpty() || email.isBlank()) && agama.equals("Pilih") == true && jenisKelamin.length() > 1 && status.length() > 1) || (nama.isEmpty() && noHp.length() > 1 && (email.isEmpty() || email.isBlank()) && agama.equals("Pilih") == true && jenisKelamin.length() > 1 && status.length() > 1) || (nama.length() > 1 && (noHp.isEmpty() || noHp.isBlank()) && email.length() > 1 && agama.equals("Pilih") != true && jenisKelamin.isEmpty() && status.isEmpty()) || (nama.isEmpty() && (noHp.isEmpty() || noHp.isBlank()) && email.length() > 1 && agama.equals("Pilih") == true && jenisKelamin.length() > 1 && status.length() > 1) || (nama.length() > 1 && (noHp.isEmpty() || noHp.isBlank()) && email.length() > 1 && agama.equals("Pilih") == true && jenisKelamin.length() > 1 && status.isEmpty()) || (nama.length() > 1 && (noHp.isEmpty() || noHp.isBlank()) && email.length() > 1 && agama.equals("Pilih") == true && jenisKelamin.isEmpty() && status.length() > 1) || (nama.isEmpty() && (noHp.isEmpty() || noHp.isBlank()) && (email.isEmpty() || email.isBlank()) && agama.equals("Pilih") != true && jenisKelamin.length() > 1 && status.length() > 1 
+                        || ((nama.isEmpty()) && noHp.length() > 1 && email.length() > 1 && agama.equals("Pilih") == true && jenisKelamin.length() > 1 && status.isEmpty()) || ((nama.isEmpty()) && noHp.length() > 1 && email.length() > 1 && agama.equals("Pilih") == true && jenisKelamin.isEmpty() && status.length() > 1) || ((nama.isEmpty()) && noHp.length() > 1 && email.length() > 1 && agama.equals("Pilih") != true && jenisKelamin.isEmpty() && status.isEmpty()) || ((nama.isEmpty()) && (noHp.isBlank() || noHp.isEmpty()) && email.length() > 1 && agama.equals("Pilih") != true && jenisKelamin.length() > 1 && status.isEmpty()) || ((nama.isEmpty()) && (noHp.isBlank() || noHp.isEmpty()) && email.length() > 1 && agama.equals("Pilih") != true && jenisKelamin.isEmpty() && status.length() > 1))){
+                    resultSet = st.executeQuery("SELECT * FROM data WHERE  (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND Agama='"+agama+"') OR (Nama='"+nama+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"') OR (Nama='"+nama+"' AND Agama='"+agama+"' AND JenisKElamin='"+jenisKelamin+"') OR (Nama='"+nama+"' AND Agama='"+agama+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"')" +
+                    "OR (Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"') OR (Email='"+email+"' AND NoHp='"+noHp+"' AND JenisKelamin='"+jenisKelamin+"') OR (Email='"+email+"' AND NoHp='"+noHp+"' AND Status='"+status+"') OR (NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (NoHp='"+noHp+"' AND Agama='"+agama+"' AND Status='"+status+"') OR (NoHp='"+noHp+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"')"
+                    + "OR (Nama='"+nama+"' AND Email='"+email+"' AND JenisKelamin='"+jenisKelamin+"') OR (NoHp='"+noHp+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Email='"+email+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Email='"+email+"' AND Agama='"+agama+"' AND Status='"+status+"') OR (Email='"+email+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"')");
+                    createTable(resultSet);
+                }else{
+                    resultSet = st.executeQuery("SELECT * FROM data WHERE (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"') OR (Nama='"+nama+"' AND Email='"+email+"') OR (Nama='"+nama+"' AND NoHp='"+noHp+"') OR (Nama='"+nama+"' AND Agama='"+agama+"') OR (Nama='"+nama+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND JenisKelamin='"+jenisKelamin+"')" +
+                    " OR (Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"') OR (Email='"+email+"' AND NoHp='"+noHp+"') OR (Email='"+email+"' AND Agama='"+agama+"') OR (Email='"+email+"' AND JenisKelamin='"+jenisKelamin+"') OR (Email='"+email+"' AND Status='"+status+"')" +
+                    " OR (NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (NoHp='"+noHp+"' AND Agama='"+agama+"') OR (NoHp='"+noHp+"' AND JenisKelamin='"+jenisKelamin+"') OR (NoHp='"+noHp+"' AND Status='"+status+"')" +
+                    " OR (Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"')  OR (Agama='"+agama+"' AND Status='"+status+"')" +
+                    " OR (JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"')");
+            
+                    createTable(resultSet);
+                }
+            con.close();
+            clear();
+        } catch (SQLException ex) {
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void cariKe2(Connection con, String nim, String nama, String noHp, String email, String agama, String jenisKelamin, String status){
@@ -338,34 +405,13 @@ public class Data extends javax.swing.JFrame {
         try {
             st = con.createStatement();
             
-            if(nama.isEmpty() || nama.isBlank()){
+            System.out.println("kesinikan lu");
+            if(nama.isEmpty()){
                 resultSet = st.executeQuery("SELECT * FROM data WHERE Nim='"+nim+"' OR Email='"+email+"' OR NoHp='"+noHp+"' OR Agama='"+agama+"' OR JenisKelamin='"+jenisKelamin+"' OR Status='"+status+"'");
-                while(resultSet.next()){
-                Object[] data = {
-                    resultSet.getString("Nim"),
-                    resultSet.getString("Nama"),
-                    resultSet.getString("Email"),
-                    resultSet.getString("NoHp"),
-                    resultSet.getString("JenisKelamin"),
-                    resultSet.getString("Agama"),
-                    resultSet.getString("Status")
-                };
-                    tableModel.addRow(data);
-                }
+                createTable(resultSet);
             }else{
                 resultSet = st.executeQuery("SELECT * FROM data WHERE Nama Like '%"+nama+"%'");
-                while(resultSet.next()){
-                Object[] data = {
-                    resultSet.getString("Nim"),
-                    resultSet.getString("Nama"),
-                    resultSet.getString("Email"),
-                    resultSet.getString("NoHp"),
-                    resultSet.getString("JenisKelamin"),
-                    resultSet.getString("Agama"),
-                    resultSet.getString("Status")
-                };
-                    tableModel.addRow(data);
-                }
+                createTable(resultSet);
             }
             
             con.close();
@@ -379,64 +425,47 @@ public class Data extends javax.swing.JFrame {
         try{
             //koneksi ke database
             Connection con = connectionToDB.ConnectDB();
-            
+           
             //Model tabel
             Object[] columnTitle = {"Nim", "Nama", "Email", "No hp", "Jenis kelamin", "Agama", "Status"};
             tableModel = new DefaultTableModel(null, columnTitle);
             tblinput.setModel(tableModel);
             tableModel.getDataVector().removeAllElements();
-            
             //Buat statement
             Statement st = con.createStatement();
-            if(nim != null && (nama.isEmpty() || nama.isBlank()) && (email.isEmpty() || email.isBlank()) && (noHp.isEmpty() || noHp.isBlank()) && agama.equals("Pilih") && jenisKelamin == null && status == null){
+            if(nim.length() > 1 && nama.length() > 1 && email.length() > 1 && noHp.length() > 1 && agama.equals("Pilih") != true && jenisKelamin.length() > 1 && status.length() > 1){
+                resultSet = st.executeQuery("SELECT * FROM data WHERE Nim='"+nim+"' AND Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"'");
+                createTable(resultSet);        
+            }else if(nim.length() > 1 && (nama.isEmpty() || nama.isBlank()) && (email.isEmpty() || email.isBlank()) && (noHp.isEmpty() || noHp.isBlank()) && agama.equals("Pilih") && jenisKelamin.isEmpty() && status.isEmpty()){
                 cariKe2(con, nim, nama, noHp, email, agama, jenisKelamin, status);
-            }else if(nama != null && (nim.isEmpty() || nim.isBlank()) && (email.isEmpty() || email.isBlank()) && (noHp.isEmpty() || noHp.isBlank()) && agama.equals("Pilih") && jenisKelamin == null && status == null){
+            }else if(nama != null && (nim.isEmpty() || nim.isBlank()) && (email.isEmpty() || email.isBlank()) && (noHp.isEmpty() || noHp.isBlank()) && agama.equals("Pilih") && jenisKelamin.isEmpty() && status.isEmpty()){
                 cariKe2(con, nim, nama, noHp, email, agama, jenisKelamin, status);
-            }else if(email != null && (nim.isEmpty() || nim.isBlank()) && (nama.isEmpty() || nama.isBlank()) && (noHp.isEmpty() || noHp.isBlank()) && agama.equals("Pilih") && jenisKelamin == null && status == null){
+            }else if(email.length() > 1 && (nim.isEmpty() || nim.isBlank()) && (nama.isEmpty() || nama.isBlank()) && (noHp.isEmpty() || noHp.isBlank()) && agama.equals("Pilih") && jenisKelamin.isEmpty() && status.isEmpty()){
                 cariKe2(con, nim, nama, noHp, email, agama, jenisKelamin, status);
-            }else if(noHp != null && (nim.isEmpty() || nim.isBlank()) && (nama.isEmpty() || nama.isBlank()) && (email.isEmpty() || email.isBlank()) && agama.equals("Pilih") && jenisKelamin == null && status == null){
+            }else if(noHp.length() > 1 && (nim.isEmpty() || nim.isBlank()) && (nama.isEmpty() || nama.isBlank()) && (email.isEmpty() || email.isBlank()) && agama.equals("Pilih") && jenisKelamin.isEmpty() && status.isEmpty()){
                 cariKe2(con, nim, nama, noHp, email, agama, jenisKelamin, status);
-            }else if(true != agama.equals("Pilih") &&(nim.isEmpty() || nim.isBlank()) && (nama.isEmpty() || nama.isBlank()) && (email.isEmpty() || email.isBlank()) && (noHp.isEmpty() || noHp.isBlank()) && jenisKelamin == null && status == null){
+            }else if(true != agama.equals("Pilih") &&(nim.isEmpty() || nim.isBlank()) && (nama.isEmpty() || nama.isBlank()) && (email.isEmpty() || email.isBlank()) && (noHp.isEmpty() || noHp.isBlank()) && jenisKelamin.isEmpty() && status.isEmpty()){
                 cariKe2(con, nim, nama, noHp, email, agama, jenisKelamin, status);
-            }else if( jenisKelamin != null && (nim.isEmpty() || nim.isBlank()) && (nama.isEmpty() || nama.isBlank()) && (email.isEmpty() || email.isBlank()) && (noHp.isEmpty() || noHp.isBlank()) && agama.equals("Pilih") && status == null){
+            }else if( jenisKelamin.length() > 1 && (nim.isEmpty() || nim.isBlank()) && (nama.isEmpty() || nama.isBlank()) && (email.isEmpty() || email.isBlank()) && (noHp.isEmpty() || noHp.isBlank()) && agama.equals("Pilih") && status.isEmpty()){
                 cariKe2(con, nim, nama, noHp, email, agama, jenisKelamin, status);
-            }else if( status != null && (nim.isEmpty() || nim.isBlank()) && (nama.isEmpty() || nama.isBlank()) && (email.isEmpty() || email.isBlank()) && (noHp.isEmpty() || noHp.isBlank()) && agama.equals("Pilih") && jenisKelamin == null){
+            }else if( status.length() > 1 && (nim.isEmpty() || nim.isBlank()) && (nama.isEmpty() || nama.isBlank()) && (email.isEmpty() || email.isBlank()) && (noHp.isEmpty() || noHp.isBlank()) && agama.equals("Pilih") && jenisKelamin.isEmpty()){
                 cariKe2(con, nim, nama, noHp, email, agama, jenisKelamin, status);
             }else{
-                if(nim != null){
-                    resultSet = st.executeQuery("SELECT * FROM data WHERE Nim='"+nim+"' AND Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"'");
-                    while(resultSet.next()){
-                    Object[] data = {
-                        resultSet.getString("Nim"),
-                        resultSet.getString("Nama"),
-                        resultSet.getString("Email"),
-                        resultSet.getString("NoHp"),
-                        resultSet.getString("JenisKelamin"),
-                        resultSet.getString("Agama"),
-                        resultSet.getString("Status")
-                    };
-                        tableModel.addRow(data);
-                    }
+                if(nim.length() > 1){
+                    resultSet = st.executeQuery("SELECT * FROM data WHERE Nim='"+nim+"'");
+                    createTable(resultSet);
                 }else{
-                   resultSet = st.executeQuery("SELECT * FROM data WHERE (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"') OR (Nama='"+nama+"' AND Email='"+email+"') OR (Nama='"+nama+"' AND NoHp='"+noHp+"') OR (Nama='"+nama+"' AND Agama='"+agama+"') OR (Nama='"+nama+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND JenisKelamin='"+jenisKelamin+"')" +
-                    " OR (Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"') OR (Email='"+email+"' AND NoHp='"+noHp+"') OR (Email='"+email+"' AND Agama='"+agama+"') OR (Email='"+email+"' AND JenisKelamin='"+jenisKelamin+"') OR (Email='"+email+"' AND Status='"+status+"')" +
-                    " OR (NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (NoHp='"+noHp+"' AND Agama='"+agama+"') OR (NoHp='"+noHp+"' AND JenisKelamin='"+jenisKelamin+"') OR (NoHp='"+noHp+"' AND Status='"+status+"')" +
-                    " OR (Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"')  OR (Agama='"+agama+"' AND Status='"+status+"')" +
-                    " OR (JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"')");
-            
-                    while(resultSet.next()){
-                    Object[] data = {
-                        resultSet.getString("Nim"),
-                        resultSet.getString("Nama"),
-                        resultSet.getString("Email"),
-                        resultSet.getString("NoHp"),
-                        resultSet.getString("JenisKelamin"),
-                        resultSet.getString("Agama"),
-                        resultSet.getString("Status")
-                    };
-                    tableModel.addRow(data);
-                    } 
+                    cariKe1(con, nim,nama, noHp, email, agama, jenisKelamin, status);
+//                   System.out.println("Masuk?");
+//                   resultSet = st.executeQuery("SELECT * FROM data WHERE (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"') OR (Nama='"+nama+"' AND Email='"+email+"' AND NoHp='"+noHp+"') OR (Nama='"+nama+"' AND Email='"+email+"') OR (Nama='"+nama+"' AND NoHp='"+noHp+"') OR (Nama='"+nama+"' AND Agama='"+agama+"') OR (Nama='"+nama+"' AND Status='"+status+"') OR (Nama='"+nama+"' AND JenisKelamin='"+jenisKelamin+"')" +
+//                    " OR (Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (Email='"+email+"' AND NoHp='"+noHp+"' AND Agama='"+agama+"') OR (Email='"+email+"' AND NoHp='"+noHp+"') OR (Email='"+email+"' AND Agama='"+agama+"') OR (Email='"+email+"' AND JenisKelamin='"+jenisKelamin+"') OR (Email='"+email+"' AND Status='"+status+"')" +
+//                    " OR (NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (NoHp='"+noHp+"' AND Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"') OR (NoHp='"+noHp+"' AND Agama='"+agama+"') OR (NoHp='"+noHp+"' AND JenisKelamin='"+jenisKelamin+"') OR (NoHp='"+noHp+"' AND Status='"+status+"')" +
+//                    " OR (Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"') OR (Agama='"+agama+"' AND JenisKelamin='"+jenisKelamin+"')  OR (Agama='"+agama+"' AND Status='"+status+"')" +
+//                    " OR (JenisKelamin='"+jenisKelamin+"' AND Status='"+status+"')");
+//            
+//                    createTable(resultSet);
                 }
+                
             }
             
             clear();
@@ -464,18 +493,7 @@ public class Data extends javax.swing.JFrame {
             //Buat statement
             Statement st = con.createStatement();
             resultSet = st.executeQuery("SELECT * FROM data");
-            while(resultSet.next()){
-                Object[] data = {
-                    resultSet.getString("Nim"),
-                    resultSet.getString("Nama"),
-                    resultSet.getString("Email"),
-                    resultSet.getString("NoHp"),
-                    resultSet.getString("JenisKelamin"),
-                    resultSet.getString("Agama"),
-                    resultSet.getString("Status")
-                };
-                tableModel.addRow(data);
-            }
+            createTable(resultSet);
             con.close();
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -512,7 +530,7 @@ public class Data extends javax.swing.JFrame {
             }else if(isValidEmailAddress(email) == false){
                 txtEmail.setText("");
                 JOptionPane.showMessageDialog(null, "email tidak valid", "invalid", JOptionPane.ERROR_MESSAGE);
-            }else if(noHp.length() < 11 || noHp.length() > 13 || (noHp.indexOf("0") != 0 && noHp.indexOf("8") != 1)){
+            }else if(noHp.length() < 11 || noHp.length() > 13 || ((String.valueOf(noHp.charAt(0)).equals("0")) && String.valueOf(noHp.charAt(1)).equals("8")) != true){
                 txtNohp.setText("");
                 JOptionPane.showMessageDialog(null, "no hp tidak valid ", "invalid", JOptionPane.ERROR_MESSAGE);
             }
@@ -630,62 +648,14 @@ public class Data extends javax.swing.JFrame {
 
     private void btnCariMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCariMouseClicked
         // TODO add your handling code here:
-//        try{
             final String nama = txtNama.getText();
             final String nim = txtNim.getText();
             final String email = txtEmail.getText();
             final String noHp = txtNohp.getText();
-            final String agama = cbxProdi.getSelectedItem().toString();
-            final String jenisKelamin = rdLaki.isSelected()? "Laki-laki" : rdPerempuan.isSelected()? "Perempuan" : null;
-            final String statusMhs = cbxAktif.isSelected()? "Aktif" : cbxTidakAktif.isSelected()? "Tidak Aktif" : null;
-            
+            final String agama = cbxAgama.getSelectedItem().toString();
+            final String jenisKelamin = rdLaki.isSelected()? "Laki-laki" : rdPerempuan.isSelected()? "Perempuan" : "";
+            final String statusMhs = cbxAktif.isSelected()? "Aktif" : cbxTidakAktif.isSelected()? "Tidak Aktif" : "";
             cari(nim, nama, noHp, email, agama, jenisKelamin, statusMhs);
-            //koneksi ke database
-//            Connection con = connectionToDB.ConnectDB();
-//            
-//            //Model tabel
-//            Object[] columnTitle = {"Nim", "Nama", "Email", "No hp", "Jenis kelamin", "Agama", "Status"};
-//            tableModel = new DefaultTableModel(null, columnTitle);
-//            tblinput.setModel(tableModel);
-//            tableModel.getDataVector().removeAllElements();
-//            
-//            //Buat statement
-//            Statement st = con.createStatement();
-//            
-//            if(nama.isEmpty() || nama.isBlank()){
-//                resultSet = st.executeQuery("SELECT * FROM data WHERE (Nim='"+nim+"') OR (Email='"+email+"') OR (NoHp='"+noHp+"') OR (Agama='"+agama+"') OR (JenisKelamin='"+jenisKelamin+"') OR (Status='"+statusMhs+"')");
-//                while(resultSet.next()){
-//                Object[] data = {
-//                    resultSet.getString("Nim"),
-//                    resultSet.getString("Nama"),
-//                    resultSet.getString("Email"),
-//                    resultSet.getString("NoHp"),
-//                    resultSet.getString("JenisKelamin"),
-//                    resultSet.getString("Agama"),
-//                    resultSet.getString("Status")
-//                };
-//                tableModel.addRow(data);
-//                }
-//            }else{
-//                resultSet = st.executeQuery("SELECT * FROM data WHERE Nama LIKE '%"+nama+"%' OR Nim='"+nim+"' OR Email='"+email+"' OR NoHp='"+noHp+"' OR Agama='"+agama+"' OR JenisKelamin='"+jenisKelamin+"' OR Status='"+statusMhs+"'");
-//                while(resultSet.next()){
-//                Object[] data = {
-//                    resultSet.getString("Nim"),
-//                    resultSet.getString("Nama"),
-//                    resultSet.getString("Email"),
-//                    resultSet.getString("NoHp"),
-//                    resultSet.getString("JenisKelamin"),
-//                    resultSet.getString("Agama"),
-//                    resultSet.getString("Status")
-//                };
-//                tableModel.addRow(data);
-//                }
-//            }
-//            clear();
-//            con.close();
-//        }catch(SQLException e){
-//            System.out.println(e.getMessage());
-//        }
     }//GEN-LAST:event_btnCariMouseClicked
 
     private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
@@ -698,6 +668,8 @@ public class Data extends javax.swing.JFrame {
             final String agama = cbxProdi.getSelectedItem().toString();
             final String jenisKelamin = rdLaki.isSelected()? "Laki-laki" : rdPerempuan.isSelected()? "Perempuan" : null;
             final String statusMhs = cbxAktif.isSelected()? "Aktif" : cbxTidakAktif.isSelected()? "Tidak Aktif" : null;
+            
+            System.out.println();
             //koneksi ke database
             Connection con = connectionToDB.ConnectDB();
             
@@ -732,7 +704,7 @@ public class Data extends javax.swing.JFrame {
             }else if(isValidEmailAddress(email) == false){
                 txtEmail.setText("");
                 JOptionPane.showMessageDialog(null, "email tidak valid", "invalid", JOptionPane.ERROR_MESSAGE);
-            }else if(noHp.length() < 11 || noHp.length() > 13 || (noHp.indexOf("0") != 0 && noHp.indexOf("8") != 1)){
+            }else if(noHp.length() < 11 || noHp.length() > 13 || ((String.valueOf(noHp.charAt(0)).equals("0")) && String.valueOf(noHp.charAt(1)).equals("8")) != true){
                 txtNohp.setText("");
                 JOptionPane.showMessageDialog(null, "no hp tidak valid ", "invalid", JOptionPane.ERROR_MESSAGE);
             }
@@ -744,10 +716,10 @@ public class Data extends javax.swing.JFrame {
                 PreparedStatement preparedStmt = con.prepareStatement(sql);
                 preparedStmt.execute();
                 JOptionPane.showMessageDialog(null, "Berhasil", "Success", JOptionPane.INFORMATION_MESSAGE);
+                clear();
                 con.close();
             }
             viewData();
-            clear();
         }catch(SQLException e){
              Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -756,6 +728,7 @@ public class Data extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         clear();
+        viewData();
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void cbxAgamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxAgamaActionPerformed

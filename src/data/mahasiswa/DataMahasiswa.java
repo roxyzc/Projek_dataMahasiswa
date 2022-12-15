@@ -12,6 +12,7 @@ import java.sql.*;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
 
+
 class connectionToDB{
     private static Connection connect;
     public static Connection ConnectDB() throws SQLException{
@@ -35,11 +36,24 @@ class connectionToDB{
     }
 }
 
+//class Session{
+//    private boolean userId;
+//    
+//    public void setSession(boolean x){
+//        this.userId = x;
+//    }
+//    
+//    public boolean getSession(){
+//        return this.userId;
+//    }
+//}
+
 public class DataMahasiswa {
 
     /**
      * @param args the command line arguments
      */
+//    public static Session SESSION = new Session(); 
     public static void main(String[] args) {
         // TODO code application logic here
         Data d = new Data();

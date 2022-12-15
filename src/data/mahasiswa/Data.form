@@ -360,12 +360,12 @@
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="7">
                 <StringItem index="0" value="Pilih"/>
-                <StringItem index="1" value="Islam"/>
-                <StringItem index="2" value="Kristen"/>
-                <StringItem index="3" value="Katolik"/>
-                <StringItem index="4" value="Hindu"/>
-                <StringItem index="5" value="Budha"/>
-                <StringItem index="6" value="Atheis"/>
+                <StringItem index="1" value="Informatika"/>
+                <StringItem index="2" value="Industri"/>
+                <StringItem index="3" value="Akuntasi"/>
+                <StringItem index="4" value="Lingkungan"/>
+                <StringItem index="5" value="PGSD"/>
+                <StringItem index="6" value=" "/>
               </StringArray>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -398,7 +398,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="70" y="440" width="-1" height="30"/>
+              <AbsoluteConstraints x="70" y="440" width="80" height="30"/>
             </Constraint>
           </Constraints>
         </Component>

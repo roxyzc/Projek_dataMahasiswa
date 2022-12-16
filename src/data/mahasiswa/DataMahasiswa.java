@@ -36,18 +36,6 @@ class connectionToDB{
     }
 }
 
-//class Session{
-//    private boolean userId;
-//    
-//    public void setSession(boolean x){
-//        this.userId = x;
-//    }
-//    
-//    public boolean getSession(){
-//        return this.userId;
-//    }
-//}
-
 public class DataMahasiswa {
 
     /**

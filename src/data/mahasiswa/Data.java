@@ -192,7 +192,7 @@ public class Data extends javax.swing.JFrame {
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 410, -1, 30));
 
         cbxProdi.setFont(new java.awt.Font("Serif", 0, 12)); // NOI18N
-        cbxProdi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih", "Informatika", "Industri", "Akuntasi", "Lingkungan", "PGSD", " " }));
+        cbxProdi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih", "Informatika", "Industri", "Management", "PGSD" }));
         cbxProdi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         cbxProdi.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -760,6 +760,15 @@ public class Data extends javax.swing.JFrame {
         // TODO add your handling code here:
        String nim = txtNim.getText();
        if(cbxProdi.getSelectedItem().toString().equals("Informatika")){
+           if(!(nim.matches(regex))){
+               String realNim = "";
+               for(int i = 0; i < nim.length(); i++){
+                   if(String.valueOf(nim.charAt(i)).matches(regex)){
+                       realNim += String.valueOf(nim.charAt(i));
+                   }
+               }
+               nim = realNim;
+           }
            if(nim.length() > 2){
                 String checkNim = txtNim.getText().substring(0, 2);
                 if(!("31".equals(checkNim)) && (nim.length() == 9 )){
@@ -776,6 +785,87 @@ public class Data extends javax.swing.JFrame {
                 }
            }else if(nim.length() < 3 && nim.length() > 0){
                txtNim.setText("31");
+           }
+       }else if(cbxProdi.getSelectedItem().toString().equals("Industri")){
+           if(!(nim.matches(regex))){
+               String realNim = "";
+               for(int i = 0; i < nim.length(); i++){
+                   if(String.valueOf(nim.charAt(i)).matches(regex)){
+                       realNim += String.valueOf(nim.charAt(i));
+                   }
+               }
+               nim = realNim;
+           }
+           if(nim.length() > 2){
+                String checkNim = txtNim.getText().substring(0, 2);
+                if(!("35".equals(checkNim)) && (nim.length() == 9 )){
+                    txtNim.setText(("35" + nim.substring(2)));
+                }
+                if(!("35".equals(checkNim)) && (nim.length() == 8)){
+                    txtNim.setText(("35" + nim.substring(1)));
+                }
+                if(!("35".equals(checkNim)) && (nim.length() <= 7)){
+                    txtNim.setText(("35" + nim.substring(0)));
+                }
+                if(!("35".equals(checkNim)) && (nim.length() > 9)){
+                    txtNim.setText("35" + nim.substring(2,9));
+                }
+           }else if(nim.length() < 3 && nim.length() > 0){
+               txtNim.setText("35");
+           }
+       }else if(cbxProdi.getSelectedItem().toString().equals("Management")){
+            if(!(nim.matches(regex))){
+               String realNim = "";
+               for(int i = 0; i < nim.length(); i++){
+                   if(String.valueOf(nim.charAt(i)).matches(regex)){
+                       realNim += String.valueOf(nim.charAt(i));
+                   }
+               }
+               nim = realNim;
+           }
+           if(nim.length() > 2){
+                String checkNim = txtNim.getText().substring(0, 2);
+                if(!("11".equals(checkNim)) && (nim.length() == 9 )){
+                    txtNim.setText(("11" + nim.substring(2)));
+                }
+                if(!("11".equals(checkNim)) && (nim.length() == 8)){
+                    txtNim.setText(("11" + nim.substring(1)));
+                }
+                if(!("11".equals(checkNim)) && (nim.length() <= 7)){
+                    txtNim.setText(("11" + nim.substring(0)));
+                }
+                if(!("11".equals(checkNim)) && (nim.length() > 9)){
+                    txtNim.setText("11" + nim.substring(2,9));
+                }
+           }else if(nim.length() < 3 && nim.length() > 0){
+               txtNim.setText("11");
+           }
+       }else if(cbxProdi.getSelectedItem().toString().equals("PGSD")){
+           if(!(nim.matches(regex))){
+               String realNim = "";
+               for(int i = 0; i < nim.length(); i++){
+                   if(String.valueOf(nim.charAt(i)).matches(regex)){
+                       realNim += String.valueOf(nim.charAt(i));
+                   }
+               }
+               nim = realNim;
+           }
+           if(nim.length() > 2){
+                String checkNim = txtNim.getText().substring(0, 2);
+                if(!("13".equals(checkNim)) && (nim.length() == 9 )){
+                    txtNim.setText(("13" + nim.substring(2)));
+                }
+                if(!("13".equals(checkNim)) && (nim.length() == 8)){
+                    txtNim.setText(("13" + nim.substring(1)));
+                }
+                if(!("13".equals(checkNim)) && (nim.length() <= 7)){
+                    txtNim.setText(("13" + nim.substring(0)));
+                }
+                if(!("13".equals(checkNim)) && (nim.length() > 9)){
+                    txtNim.setText("13" + nim.substring(2,9));
+                }
+           }else if(nim.length() < 3 && nim.length() > 0){
+               txtNim.setText("13");
            }
        }
     }//GEN-LAST:event_cbxProdiItemStateChanged

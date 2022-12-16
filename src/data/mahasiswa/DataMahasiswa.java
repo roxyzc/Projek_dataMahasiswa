@@ -44,8 +44,8 @@ public class DataMahasiswa {
 //    public static Session SESSION = new Session(); 
     public static void main(String[] args) {
         // TODO code application logic here
-        Data d = new Data();
-        d.setVisible(true);
+        Login l = new Login();
+        l.setVisible(true);
     }
     
 }

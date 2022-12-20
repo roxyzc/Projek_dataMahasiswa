@@ -17,7 +17,7 @@ class connectionToDB{
     private static Connection connect;
     public static Connection ConnectDB() throws SQLException{
         try {
-            String DB = "jdbc:mysql://localhost/dbdatamahasiswa";
+            String DB = "jdbc:mysql://localhost/db_datamahasiswa";
             String user = "root";   
             String pass = "";
             

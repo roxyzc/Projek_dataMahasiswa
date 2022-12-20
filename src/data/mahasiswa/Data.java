@@ -183,7 +183,7 @@ public class Data extends javax.swing.JFrame {
                 cbxAgamaActionPerformed(evt);
             }
         });
-        jPanel1.add(cbxAgama, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 410, 90, 30));
+        jPanel1.add(cbxAgama, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 410, 120, 30));
 
         jLabel6.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -192,7 +192,7 @@ public class Data extends javax.swing.JFrame {
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 410, -1, 30));
 
         cbxProdi.setFont(new java.awt.Font("Serif", 0, 12)); // NOI18N
-        cbxProdi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih", "Informatika", "Industri", "Management", "PGSD" }));
+        cbxProdi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih", "Informatika", "Industri", "Management", "PGSD", "Lingkungan", "Akuntansi", "Sipil", "Arsitek" }));
         cbxProdi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         cbxProdi.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -204,7 +204,7 @@ public class Data extends javax.swing.JFrame {
                 cbxProdiActionPerformed(evt);
             }
         });
-        jPanel1.add(cbxProdi, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 440, 90, 30));
+        jPanel1.add(cbxProdi, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 440, 120, 30));
 
         jLabel10.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
@@ -867,6 +867,114 @@ public class Data extends javax.swing.JFrame {
                 }
            }else if(nim.length() < 3 && nim.length() > 0){
                txtNim.setText("13");
+           }
+       }else if(cbxProdi.getSelectedItem().toString().equals("Lingkungan")){
+           if(!(nim.matches(regex))){
+               String realNim = "";
+               for(int i = 0; i < nim.length(); i++){
+                   if(String.valueOf(nim.charAt(i)).matches(regex)){
+                       realNim += String.valueOf(nim.charAt(i));
+                   }
+               }
+               nim = realNim;
+           }
+           if(nim.length() > 2){
+                String checkNim = txtNim.getText().substring(0, 2);
+                if(!("33".equals(checkNim)) && (nim.length() == 9 )){
+                    txtNim.setText(("33" + nim.substring(2)));
+                }
+                if(!("33".equals(checkNim)) && (nim.length() == 8)){
+                    txtNim.setText(("33" + nim.substring(1)));
+                }
+                if(!("33".equals(checkNim)) && (nim.length() <= 7)){
+                    txtNim.setText(("33" + nim.substring(0)));
+                }
+                if(!("33".equals(checkNim)) && (nim.length() > 9)){
+                    txtNim.setText("33" + nim.substring(2,9));
+                }
+           }else if(nim.length() < 3 && nim.length() > 0){
+               txtNim.setText("33");
+           }
+       }else if(cbxProdi.getSelectedItem().toString().equals("Akuntansi")){
+           if(!(nim.matches(regex))){
+               String realNim = "";
+               for(int i = 0; i < nim.length(); i++){
+                   if(String.valueOf(nim.charAt(i)).matches(regex)){
+                       realNim += String.valueOf(nim.charAt(i));
+                   }
+               }
+               nim = realNim;
+           }
+           if(nim.length() > 2){
+                String checkNim = txtNim.getText().substring(0, 2);
+                if(!("22".equals(checkNim)) && (nim.length() == 9 )){
+                    txtNim.setText(("22" + nim.substring(2)));
+                }
+                if(!("22".equals(checkNim)) && (nim.length() == 8)){
+                    txtNim.setText(("22" + nim.substring(1)));
+                }
+                if(!("22".equals(checkNim)) && (nim.length() <= 7)){
+                    txtNim.setText(("22" + nim.substring(0)));
+                }
+                if(!("22".equals(checkNim)) && (nim.length() > 9)){
+                    txtNim.setText("22" + nim.substring(2,9));
+                }
+           }else if(nim.length() < 3 && nim.length() > 0){
+               txtNim.setText("22");
+           }
+       }else if(cbxProdi.getSelectedItem().toString().equals("Arsitek")){
+           if(!(nim.matches(regex))){
+               String realNim = "";
+               for(int i = 0; i < nim.length(); i++){
+                   if(String.valueOf(nim.charAt(i)).matches(regex)){
+                       realNim += String.valueOf(nim.charAt(i));
+                   }
+               }
+               nim = realNim;
+           }
+           if(nim.length() > 2){
+                String checkNim = txtNim.getText().substring(0, 2);
+                if(!("33".equals(checkNim)) && (nim.length() == 9 )){
+                    txtNim.setText(("33" + nim.substring(2)));
+                }
+                if(!("33".equals(checkNim)) && (nim.length() == 8)){
+                    txtNim.setText(("33" + nim.substring(1)));
+                }
+                if(!("33".equals(checkNim)) && (nim.length() <= 7)){
+                    txtNim.setText(("33" + nim.substring(0)));
+                }
+                if(!("33".equals(checkNim)) && (nim.length() > 9)){
+                    txtNim.setText("33" + nim.substring(2,9));
+                }
+           }else if(nim.length() < 3 && nim.length() > 0){
+               txtNim.setText("33");
+           }
+       }else if(cbxProdi.getSelectedItem().toString().equals("Sipil")){
+           if(!(nim.matches(regex))){
+               String realNim = "";
+               for(int i = 0; i < nim.length(); i++){
+                   if(String.valueOf(nim.charAt(i)).matches(regex)){
+                       realNim += String.valueOf(nim.charAt(i));
+                   }
+               }
+               nim = realNim;
+           }
+           if(nim.length() > 2){
+                String checkNim = txtNim.getText().substring(0, 2);
+                if(!("36".equals(checkNim)) && (nim.length() == 9 )){
+                    txtNim.setText(("36" + nim.substring(2)));
+                }
+                if(!("36".equals(checkNim)) && (nim.length() == 8)){
+                    txtNim.setText(("36" + nim.substring(1)));
+                }
+                if(!("36".equals(checkNim)) && (nim.length() <= 7)){
+                    txtNim.setText(("36" + nim.substring(0)));
+                }
+                if(!("36".equals(checkNim)) && (nim.length() > 9)){
+                    txtNim.setText("36" + nim.substring(2,9));
+                }
+           }else if(nim.length() < 3 && nim.length() > 0){
+               txtNim.setText("36");
            }
        }
     }//GEN-LAST:event_cbxProdiItemStateChanged

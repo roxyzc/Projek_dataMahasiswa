@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2022 at 02:43 PM
+-- Generation Time: Dec 19, 2022 at 07:31 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -34,20 +34,18 @@ CREATE TABLE `data` (
   `NoHp` varchar(13) NOT NULL,
   `Agama` varchar(10) NOT NULL,
   `JenisKelamin` varchar(10) NOT NULL,
-  `Status` varchar(15) NOT NULL
+  `Status` varchar(15) NOT NULL,
+  `Prodi` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `data`
 --
 
-INSERT INTO `data` (`Nim`, `Nama`, `Email`, `NoHp`, `Agama`, `JenisKelamin`, `Status`) VALUES
-('312110161', 'roxyzc', 'coba2@gmail.com', '08341256781', 'Budha', 'Perempuan', 'Tidak Aktif'),
-('312110166', 'roxyzc15', 'coba2@gmail.com', '08341256781', 'Budha', 'Perempuan', 'Aktif'),
-('312110168', 'roxyzc1', 'coba1@gmail.com', '08229763444', 'Kristen', 'Laki-laki', 'Aktif'),
-('312110169', 'roxyzc', 'coba@gmail.com', '082297634444', 'Islam', 'Laki-laki', 'Aktif'),
-('312110180', 'Manusia Biasa.Prof', 'coba@gmail.com', '081212121212', 'Kristen', 'Laki-laki', 'Aktif'),
-('312110189', 'roxyzc', 'coba@gmail.com', '082297634444', 'Islam', 'Laki-laki', 'Aktif');
+INSERT INTO `data` (`Nim`, `Nama`, `Email`, `NoHp`, `Agama`, `JenisKelamin`, `Status`, `Prodi`) VALUES
+('312110120', 'apa aja ge', 'MantapBetul1234@gmail.com', '082299776610', 'Islam', 'Laki-laki', 'Aktif', 'Industri'),
+('312110121', 'apa aja ge', 'KerenBetdah@gmail.com', '082299776610', 'Islam', 'Laki-laki', 'Aktif', 'Informatika'),
+('313657431', 'Prof.Mantap', 'ProfMantap123@gmail.com', '082299776633', 'Islam', 'Laki-laki', 'Aktif', 'Informatika');
 
 --
 -- Indexes for dumped tables

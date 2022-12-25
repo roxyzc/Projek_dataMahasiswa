@@ -57,8 +57,8 @@ public class Data extends javax.swing.JFrame {
         cbxProdi = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        cbxAktif = new javax.swing.JCheckBox();
-        cbxTidakAktif = new javax.swing.JCheckBox();
+        rdAktif = new javax.swing.JCheckBox();
+        rdTidakAktif = new javax.swing.JCheckBox();
         jLabel4 = new javax.swing.JLabel();
         rdLaki = new javax.swing.JRadioButton();
         rdPerempuan = new javax.swing.JRadioButton();
@@ -222,24 +222,24 @@ public class Data extends javax.swing.JFrame {
         jLabel7.setText("Status");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 470, -1, 30));
 
-        cbxAktif.setBackground(new java.awt.Color(0, 8, 20));
-        buttonGroup1.add(cbxAktif);
-        cbxAktif.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
-        cbxAktif.setForeground(new java.awt.Color(255, 255, 255));
-        cbxAktif.setText("Aktif");
-        jPanel1.add(cbxAktif, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 470, -1, 30));
+        rdAktif.setBackground(new java.awt.Color(0, 8, 20));
+        buttonGroup1.add(rdAktif);
+        rdAktif.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        rdAktif.setForeground(new java.awt.Color(255, 255, 255));
+        rdAktif.setText("Aktif");
+        jPanel1.add(rdAktif, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 470, -1, 30));
 
-        cbxTidakAktif.setBackground(new java.awt.Color(0, 8, 20));
-        buttonGroup1.add(cbxTidakAktif);
-        cbxTidakAktif.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
-        cbxTidakAktif.setForeground(new java.awt.Color(255, 255, 255));
-        cbxTidakAktif.setText("Tidak Aktif");
-        cbxTidakAktif.addActionListener(new java.awt.event.ActionListener() {
+        rdTidakAktif.setBackground(new java.awt.Color(0, 8, 20));
+        buttonGroup1.add(rdTidakAktif);
+        rdTidakAktif.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        rdTidakAktif.setForeground(new java.awt.Color(255, 255, 255));
+        rdTidakAktif.setText("Tidak Aktif");
+        rdTidakAktif.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxTidakAktifActionPerformed(evt);
+                rdTidakAktifActionPerformed(evt);
             }
         });
-        jPanel1.add(cbxTidakAktif, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 470, -1, 30));
+        jPanel1.add(rdTidakAktif, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 470, -1, 30));
 
         jLabel4.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -343,14 +343,18 @@ public class Data extends javax.swing.JFrame {
            String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
            String[] ambilEmail = email.split("@");
            for(int i = 0; i < ambilEmail[0].length(); i++){
+               System.out.println(ambilEmail[0].charAt(i));
+               System.out.println(String.valueOf(ambilEmail[0].charAt(i)).matches(regex));
                if(String.valueOf(ambilEmail[0].charAt(i)).matches(regex)){
                    valid = true;
                }
                
            }
-           if((ambilEmail[0].length() > 8) != true || valid != true){
+           System.out.println(valid);
+           if((ambilEmail[0].length() > 8) != true || valid == false){
                return false;
            }
+           valid = false;
            java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
            java.util.regex.Matcher m = p.matcher(email);
            return m.matches();
@@ -528,7 +532,7 @@ public class Data extends javax.swing.JFrame {
             final String agama = cbxAgama.getSelectedItem().toString();
             final String prodi = cbxProdi.getSelectedItem().toString();
                       
-            if((nama.isBlank() || nama.isEmpty()) || (nim.isBlank() || nim.isEmpty()) || (email.isBlank() || email.isEmpty()) || (noHp.isBlank() || noHp.isEmpty()) || agama.equals("Pilih") || prodi.equals("Pilih") || (rdLaki.isSelected() == false && rdPerempuan.isSelected() == false) || (cbxAktif.isSelected() == false && cbxTidakAktif.isSelected() == false)){
+            if((nama.isBlank() || nama.isEmpty()) || (nim.isBlank() || nim.isEmpty()) || (email.isBlank() || email.isEmpty()) || (noHp.isBlank() || noHp.isEmpty()) || agama.equals("Pilih") || prodi.equals("Pilih") || (rdLaki.isSelected() == false && rdPerempuan.isSelected() == false) || (rdAktif.isSelected() == false && rdTidakAktif.isSelected() == false)){
                 JOptionPane.showMessageDialog(null, "Semua data wajib diisi", "Invalid", JOptionPane.ERROR_MESSAGE);
             }else if(nim.length() < 9 || nim.length() > 9){
                 txtNim.setText("");
@@ -569,7 +573,7 @@ public class Data extends javax.swing.JFrame {
                     }
                     
                     final String jenisKelamin = rdLaki.isSelected() ? rdLaki.getText() : rdPerempuan.getText();
-                    final String status = cbxAktif.isSelected() ? cbxAktif.getText() : cbxTidakAktif.getText();
+                    final String status = rdAktif.isSelected() ? rdAktif.getText() : rdTidakAktif.getText();
                     String sql = "INSERT INTO `data`(`Nim`, `Nama`, `Email`, `NoHp`, `Agama`, `JenisKelamin`, `Status`, `Prodi`) VALUES ("
                             + "'"+nim+"'"
                             + ",'"+nama+"'"
@@ -592,9 +596,9 @@ public class Data extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnTambahMouseClicked
 
-    private void cbxTidakAktifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTidakAktifActionPerformed
+    private void rdTidakAktifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdTidakAktifActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbxTidakAktifActionPerformed
+    }//GEN-LAST:event_rdTidakAktifActionPerformed
 
     private void tblinputMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblinputMouseClicked
         //ambil data dari table
@@ -621,9 +625,9 @@ public class Data extends javax.swing.JFrame {
                 }
                 
                 if(resultSet.getString("Status").equals("Aktif")){
-                    cbxAktif.setSelected(true);
+                    rdAktif.setSelected(true);
                 }else{
-                    cbxTidakAktif.setSelected(true); 
+                    rdTidakAktif.setSelected(true); 
                 }
             }
         }catch(SQLException e){
@@ -651,7 +655,7 @@ public class Data extends javax.swing.JFrame {
                     return;
                 }
 
-                if(JOptionPane.showConfirmDialog(null, "Yakin?", "Warning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+                if(JOptionPane.showConfirmDialog(null, "Yakin Dek?", "Warning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
                     String delete = "DELETE FROM data WHERE Nim='"+txtNim.getText()+"'";
                     PreparedStatement prs = con.prepareStatement(delete);
                     prs.execute();
@@ -674,7 +678,7 @@ public class Data extends javax.swing.JFrame {
             final String agama = cbxAgama.getSelectedItem().toString();
             final String prodi = cbxProdi.getSelectedItem().toString();
             final String jenisKelamin = rdLaki.isSelected()? "Laki-laki" : rdPerempuan.isSelected()? "Perempuan" : "";
-            final String statusMhs = cbxAktif.isSelected()? "Aktif" : cbxTidakAktif.isSelected()? "Tidak Aktif" : "";
+            final String statusMhs = rdAktif.isSelected()? "Aktif" : rdTidakAktif.isSelected()? "Tidak Aktif" : "";
             cari(nim, nama, noHp, email, agama, jenisKelamin, statusMhs, prodi);
     }//GEN-LAST:event_btnCariMouseClicked
 
@@ -688,12 +692,12 @@ public class Data extends javax.swing.JFrame {
             final String agama = cbxAgama.getSelectedItem().toString();
             final String prodi = cbxProdi.getSelectedItem().toString();
             final String jenisKelamin = rdLaki.isSelected()? "Laki-laki" : rdPerempuan.isSelected()? "Perempuan" : null;
-            final String statusMhs = cbxAktif.isSelected()? "Aktif" : cbxTidakAktif.isSelected()? "Tidak Aktif" : null;
+            final String statusMhs = rdAktif.isSelected()? "Aktif" : rdTidakAktif.isSelected()? "Tidak Aktif" : null;
             //koneksi ke database
             Connection con = connectionToDB.ConnectDB();
             
             Statement st = con.createStatement();
-            resultSet = st.executeQuery("SELECT * FROM data WHERE Nim='"+txtNim.getText()+"'");
+            resultSet = st.executeQuery("SELECT * FROM data WHERE Nim='"+nim+"'");
             Boolean findUser = false;
             while(resultSet.next()){
                 findUser = true;
@@ -1031,9 +1035,7 @@ public class Data extends javax.swing.JFrame {
     private javax.swing.ButtonGroup btngJenKel;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbxAgama;
-    private javax.swing.JCheckBox cbxAktif;
     private javax.swing.JComboBox<String> cbxProdi;
-    private javax.swing.JCheckBox cbxTidakAktif;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -1047,8 +1049,10 @@ public class Data extends javax.swing.JFrame {
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JCheckBox rdAktif;
     private javax.swing.JRadioButton rdLaki;
     private javax.swing.JRadioButton rdPerempuan;
+    private javax.swing.JCheckBox rdTidakAktif;
     private javax.swing.JTable tblinput;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtNama;

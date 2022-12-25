@@ -92,7 +92,7 @@ public class Data extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("NIM");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 290, -1, 30));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 290, 50, 30));
 
         txtNim.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
         txtNim.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
@@ -105,6 +105,11 @@ public class Data extends javax.swing.JFrame {
         btnCari.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnCariMouseClicked(evt);
+            }
+        });
+        btnCari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCariActionPerformed(evt);
             }
         });
         jPanel1.add(btnCari, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 290, 60, 30));
@@ -978,6 +983,10 @@ public class Data extends javax.swing.JFrame {
            }
        }
     }//GEN-LAST:event_cbxProdiItemStateChanged
+
+    private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCariActionPerformed
 
     /**
      * @param args the command line arguments

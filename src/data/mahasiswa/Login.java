@@ -93,7 +93,7 @@ public class Login extends javax.swing.JFrame {
         String username = txtUsername.getText();
         String password = String.valueOf(txtPassword.getPassword());
         
-        if((username.isEmpty() || username.isBlank()) && password.isEmpty() || password.isBlank()){
+        if(username.isEmpty() && password.isEmpty()){
              JOptionPane.showMessageDialog(null, "Username dan password wajib diisi", "ERROR", JOptionPane.ERROR_MESSAGE);
         }else if((username.isEmpty() || username.isBlank()) && password != null){
              JOptionPane.showMessageDialog(null, "Username wajib diisi", "ERROR", JOptionPane.ERROR_MESSAGE);

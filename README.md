@@ -1,2 +1,4 @@
-# Desain-data-mahasiswa
-Desain projek data mahasiswa
+# Pendataan Mahasiswa
+Projek ini menggunakan beberapa teknologi diantaranya:
+- Java
+- MYSQL
